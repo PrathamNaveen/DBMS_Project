@@ -33,7 +33,7 @@ app.get('/api/movies', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 }));
 // Movie by specific ID
-app.get('/movies/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/movies/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getMovieById(req.params.id);
         console.log(allMovies[0]);
@@ -45,7 +45,7 @@ app.get('/movies/:id', (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 }));
 // Director of a specific movie
-app.get('/director/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/director/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getDirectorOfSpecificMovie(req.params.id);
         console.log(allMovies[0]);
@@ -57,7 +57,7 @@ app.get('/director/:id', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 // Get Genre of specific movie
-app.get('/genre/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/genre/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getGenreOfSpecificMovie(req.params.id);
         console.log(allMovies[0]);
@@ -69,7 +69,7 @@ app.get('/genre/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 // Get Cast of specific movie
-app.get('/cast/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/cast/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getCastOfSpecificMovie(req.params.id);
         console.log(allMovies[0]);
@@ -81,7 +81,7 @@ app.get('/cast/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 }));
 // Get the where to watch location for a specific movie
-app.get('/wtw/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/wtw/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getWhereToWatch(req.params.id);
         console.log(allMovies[0]);
@@ -93,7 +93,7 @@ app.get('/wtw/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 }));
 // Get all the where to watch locations for all movies
-app.get('/wtw', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/wtw', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getAllWhereToWatch();
         console.log(allMovies[0]);
@@ -105,7 +105,7 @@ app.get('/wtw', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 }));
 // Get all the movies with a specific rating
-app.get('/movies/rating/:rating', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/movies/rating/:rating', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getMoviesWithSpecificRating(Number(req.params.rating));
         console.log(allMovies[0]);
@@ -117,7 +117,7 @@ app.get('/movies/rating/:rating', (req, res) => __awaiter(void 0, void 0, void 0
     }
 }));
 // Get all the movies with a rating greater than a specified value
-app.get('/movies/rating/greater/:rating', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/movies/rating/greater/:rating', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getMoviesWithRatingGreaterThanOrEqualTo(Number(req.params.rating));
         console.log(allMovies[0]);
@@ -129,7 +129,7 @@ app.get('/movies/rating/greater/:rating', (req, res) => __awaiter(void 0, void 0
     }
 }));
 // Get the top 10 movies by popularity
-app.get('/movies/top10', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/movies/top10', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getTop10MoviesByPopularity();
         console.log(allMovies[0]);
@@ -141,7 +141,7 @@ app.get('/movies/top10', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 // Get all the movies available to watch online in a specific language
-app.get('/movies/online/:language', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/movies/online/:language', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getMoviesAvailableToWatchOnlineInLanguage(req.params.language);
         console.log(allMovies[0]);
@@ -153,7 +153,7 @@ app.get('/movies/online/:language', (req, res) => __awaiter(void 0, void 0, void
     }
 }));
 // Get all the Awards obtained by a specific movie
-app.get('/movies/awards/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/movies/awards/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const allMovies = yield db.getAwardsObtainedByMovie(req.params.id);
         console.log(allMovies[0]);

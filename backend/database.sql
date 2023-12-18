@@ -207,5 +207,12 @@ SELECT M.Title, D.FirstName, D.LastName
 FROM DIRECTOR D, MOVIE M, MOVIE_DIRECTOR MD
 WHERE M.MovieID=MD.MovieID AND D.DirectorID=MD.DirectorID AND M.MovieID="m001";
 
+-- Inserting Harry Potter and the Sorcerer's Stone
+
+INSERT INTO MOVIE (MovieID, Title, GenreID, ReleaseDate, Rating, Plot, 
+DirectorID, CastID, WtwID, MovieLength, PosterLink, Language, Awards, Popularity) VALUES 
+('m003', 'Harry Potter and the Sorcerer\'s Stone', 'g003', '2001-11-16', 7.6, 'A young wizard discovers his magical heritage...', 
+'d003', 'c003', 'wtw003', 152, 'https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/71x1RHSaEhL._AC_UF894,1000_QL80_.jpg', 'English', 'Best Production Design', 87);
+
 
 
