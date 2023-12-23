@@ -79,6 +79,16 @@ export async function getGenreOfSpecificMovie(id: string): Promise<md.Genre[]> {
   }
 }
 
+export async function getAllGenres(): Promise<md.Genre[]> {
+  try {
+    const [rows] = await pool.execute("SELECT GenreName FROM GENRE");
+    return rows as md.Genre[];
+  } catch (error) {
+    console.error('Error fetching all genres:', error);
+    throw error;
+  }
+}
+
 export async function getCastOfSpecificMovie(id: string): Promise<md.Cast[]> {
   try {
     const [rows] = await pool.execute(
@@ -209,6 +219,17 @@ export async function getMoviesAvailableToWatchOnlineInLanguage(language: string
   } catch (error) {
       console.log("Error fetching movies available to watch online in language:", error);
       throw error;
+  }
+}
+
+// Get All Languages
+export async function getAllLanguages(): Promise<md.Language[]> {
+  try {
+    const [rows] = await pool.execute("SELECT LanguageName FROM LANGUAGE");
+    return rows as md.Language[];
+  } catch (error) {
+    console.error('Error fetching all languages:', error);
+    throw error;
   }
 }
 
@@ -389,6 +410,31 @@ export async function addCast(cast: md.Cast) {
   } catch (error) {
       console.log("Error adding cast to database:", error);
       throw error;
+  }
+}
+
+// Search Movie By Title
+// Add this to your database file
+export async function searchMovieByTitle(title: string): Promise<md.Movie | null> {
+  try {
+    const [rows]: any[] = await pool.execute(
+      `
+      SELECT *
+      FROM MOVIE
+      WHERE LOWER(Title) = ?;
+      `,
+      [title]
+    );
+
+    if (rows && rows.length > 0) {
+      // Use the `rows[0]` directly if it's an array
+      return rows[0] as md.Movie;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error searching for movie by title:', error);
+    throw error;
   }
 }
 

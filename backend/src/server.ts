@@ -65,6 +65,17 @@ app.get('/api/genre/:id', async (req, res) => {
     }
 });
 
+// Get All available Genres
+app.get('/api/genres', async (req, res) => {
+    try {
+      const allGenres = await db.getAllGenres();
+      res.status(200).json(allGenres);
+    } catch (error) {
+      console.error("Error fetching all genres", error);
+      res.status(500).json({ error: "Error fetching all genres" });
+    }
+});
+
 // Get Cast of specific movie
 app.get('/api/cast/:id', async (req, res) => {
     try {
@@ -150,6 +161,17 @@ app.get('/api/movies/online/:language', async (req, res) => {
     }
 });
 
+// Get all languages
+app.get('/api/languages', async (req, res) => {
+    try {
+      const allLanguages = await db.getAllLanguages();
+      res.status(200).json(allLanguages);
+    } catch (error) {
+      console.error("Error fetching all languages", error);
+      res.status(500).json({ error: "Error fetching all languages" });
+    }
+});
+
 // Get all the Awards obtained by a specific movie
 app.get('/api/movies/awards/:id', async (req, res) => {
     try {
@@ -161,6 +183,24 @@ app.get('/api/movies/awards/:id', async (req, res) => {
         res.status(500).json({ error: "No awards obtained by such movie" });
     }
 });
+
+// Search Movie by Title
+app.get('/api/movies/search/:term', async (req, res) => {
+    try {
+      const searchTerm = req.params.term.toLowerCase();
+      const movie = await db.searchMovieByTitle(searchTerm);
+  
+      if (movie) {
+        res.status(200).json(movie);
+      } else {
+        res.status(404).json({ message: 'Movie not found' });
+      }
+    } catch (error) {
+      console.error('Error searching for movie:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
 
 // Post Method for all the post functions in database.ts
 // app.post('/movies', async (req, res) => {

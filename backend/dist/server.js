@@ -68,6 +68,17 @@ app.get('/api/genre/:id', (req, res) => __awaiter(void 0, void 0, void 0, functi
         res.status(500).json({ error: "No genre by such id" });
     }
 }));
+// Get All available Genres
+app.get('/api/genres', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allGenres = yield db.getAllGenres();
+        res.status(200).json(allGenres);
+    }
+    catch (error) {
+        console.error("Error fetching all genres", error);
+        res.status(500).json({ error: "Error fetching all genres" });
+    }
+}));
 // Get Cast of specific movie
 app.get('/api/cast/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -152,6 +163,17 @@ app.get('/api/movies/online/:language', (req, res) => __awaiter(void 0, void 0, 
         res.status(500).json({ error: "No movies with ${req.params.language} is available to watch online" });
     }
 }));
+// Get all languages
+app.get('/api/languages', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allLanguages = yield db.getAllLanguages();
+        res.status(200).json(allLanguages);
+    }
+    catch (error) {
+        console.error("Error fetching all languages", error);
+        res.status(500).json({ error: "Error fetching all languages" });
+    }
+}));
 // Get all the Awards obtained by a specific movie
 app.get('/api/movies/awards/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -162,6 +184,23 @@ app.get('/api/movies/awards/:id', (req, res) => __awaiter(void 0, void 0, void 0
     catch (error) {
         console.error("Error fetching awards obtained by movie", error);
         res.status(500).json({ error: "No awards obtained by such movie" });
+    }
+}));
+// Search Movie by Title
+app.get('/api/movies/search/:term', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const searchTerm = req.params.term.toLowerCase();
+        const movie = yield db.searchMovieByTitle(searchTerm);
+        if (movie) {
+            res.status(200).json(movie);
+        }
+        else {
+            res.status(404).json({ message: 'Movie not found' });
+        }
+    }
+    catch (error) {
+        console.error('Error searching for movie:', error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 }));
 // Post Method for all the post functions in database.ts

@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-center:hover {
+    color: blue;
+    cursor: pointer;
+  }
+  
+  .cursor-pointer:hover {
+    transform: scale(1.05); 
+    transition: transform 0.3s ease; 
+  }
+  

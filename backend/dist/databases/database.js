@@ -78,6 +78,18 @@ export function getGenreOfSpecificMovie(id) {
         }
     });
 }
+export function getAllGenres() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [rows] = yield pool.execute("SELECT GenreName FROM GENRE");
+            return rows;
+        }
+        catch (error) {
+            console.error('Error fetching all genres:', error);
+            throw error;
+        }
+    });
+}
 export function getCastOfSpecificMovie(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -195,6 +207,19 @@ export function getMoviesAvailableToWatchOnlineInLanguage(language) {
         }
         catch (error) {
             console.log("Error fetching movies available to watch online in language:", error);
+            throw error;
+        }
+    });
+}
+// Get All Languages
+export function getAllLanguages() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [rows] = yield pool.execute("SELECT LanguageName FROM LANGUAGE");
+            return rows;
+        }
+        catch (error) {
+            console.error('Error fetching all languages:', error);
             throw error;
         }
     });
@@ -359,6 +384,30 @@ export function addCast(cast) {
         }
         catch (error) {
             console.log("Error adding cast to database:", error);
+            throw error;
+        }
+    });
+}
+// Search Movie By Title
+// Add this to your database file
+export function searchMovieByTitle(title) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [rows] = yield pool.execute(`
+      SELECT *
+      FROM MOVIE
+      WHERE LOWER(Title) = ?;
+      `, [title]);
+            if (rows && rows.length > 0) {
+                // Use the `rows[0]` directly if it's an array
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        }
+        catch (error) {
+            console.error('Error searching for movie by title:', error);
             throw error;
         }
     });
