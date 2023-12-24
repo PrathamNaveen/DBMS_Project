@@ -231,7 +231,7 @@ export async function getTop10MoviesByPopularity(): Promise<md.Movie[]> {
       LIMIT 10;
       `
     );
-
+    console.log(rows as md.Movie[]);
     return rows as md.Movie[];
   } catch (error) {
       console.log("Error fetching top 10 movies by popularity:", error);

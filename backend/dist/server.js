@@ -166,9 +166,9 @@ app.get('/api/movies/rating/greater/:rating', (req, res) => __awaiter(void 0, vo
 // Get the top 10 movies by popularity
 app.get('/api/movies/top10', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allMovies = yield db.getTop10MoviesByPopularity();
-        console.log(allMovies[0]);
-        res.status(200).json(allMovies[0]);
+        const top10Movies = yield db.getTop10MoviesByPopularity();
+        console.log(top10Movies); // Log the entire array
+        res.status(200).json(top10Movies); // Send the entire array
     }
     catch (error) {
         console.error("Error fetching top 10 movies by popularity", error);

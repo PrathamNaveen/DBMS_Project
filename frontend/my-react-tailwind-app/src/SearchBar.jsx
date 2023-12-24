@@ -1,6 +1,6 @@
 // SearchBar.jsx
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "axios";  
 
 const SearchBar = ({ onMovieSearch, onSearchComplete }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,7 +13,6 @@ const SearchBar = ({ onMovieSearch, onSearchComplete }) => {
 
       if (response.data) {
         setSearchResults(response.data);
-        // console.log(response.data);
       } else {
         setSearchResults([]);
       }
@@ -30,7 +29,7 @@ const SearchBar = ({ onMovieSearch, onSearchComplete }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex items-center">
       <input
         type="text"
         placeholder="Search for a movie"
@@ -66,4 +65,3 @@ const SearchBar = ({ onMovieSearch, onSearchComplete }) => {
 };
 
 export default SearchBar;
-

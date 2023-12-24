@@ -218,6 +218,7 @@ export function getTop10MoviesByPopularity() {
       ORDER BY Popularity DESC
       LIMIT 10;
       `);
+            console.log(rows);
             return rows;
         }
         catch (error) {

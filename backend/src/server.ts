@@ -167,14 +167,22 @@ app.get('/api/movies/rating/greater/:rating', async (req, res) => {
 // Get the top 10 movies by popularity
 app.get('/api/movies/top10', async (req, res) => {
     try {
-        const allMovies = await db.getTop10MoviesByPopularity();
-        console.log(allMovies[0]);
-        res.status(200).json(allMovies[0]);
+      const top10Movies = await db.getTop10MoviesByPopularity();
+  
+      if (top10Movies !== undefined) {
+        console.log(top10Movies);
+        res.status(200).json(top10Movies);
+      } else {
+        console.error("Top 10 movies array is undefined");
+        res.status(500).json({ error: "Internal server error" });
+      }
     } catch (error) {
-        console.error("Error fetching top 10 movies by popularity", error);
-        res.status(500).json({ error: "Cannot find the top 10 movies by popularity" });
+      console.error("Error fetching top 10 movies by popularity", error);
+      res.status(500).json({ error: "Cannot find the top 10 movies by popularity" });
     }
-});
+  });
+  
+
 
 // Get all the movies available to watch online in a specific language
 app.get('/api/movies/online/:language', async (req, res) => {
