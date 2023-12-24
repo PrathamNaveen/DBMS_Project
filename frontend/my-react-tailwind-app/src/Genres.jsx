@@ -1,6 +1,7 @@
 // Genres.jsx
 
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Genres = () => {
@@ -20,15 +21,22 @@ const Genres = () => {
   }, []);
 
   return (
-    <div className="m-4 p-4 border border-gray-300 rounded">
-      <h2 className="text-lg font-semibold mb-4">Genres</h2>
-      <ul>
-        {genres.map((genre) => (
-          <li key={genre.GenreID} className="mb-2">
-            {genre.GenreName}
-          </li>
-        ))}
-      </ul>
+    <div className="flex justify-center items-center h-screen">
+      <div className="m-4 p-4 border border-gray-300 rounded text-center">
+        <h2 className="text-lg font-semibold mb-4">Genres</h2>
+        <ul>
+          {genres.map((genre) => (
+            <li
+              key={genre.GenreID}
+              className="mb-2 cursor-pointer hover:underline"
+            >
+              <Link to={`/genres/${genre.GenreName}`}>
+                {genre.GenreName}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

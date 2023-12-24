@@ -90,6 +90,25 @@ export function getAllGenres() {
         }
     });
 }
+// get movies by genre name
+export function getMoviesByGenre(genreName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [rows] = yield pool.execute(`
+      SELECT M.*, MG.GenreId, G.GenreName
+      FROM MOVIE M
+      JOIN MOVIE_GENRE MG ON M.MovieID = MG.MovieID
+      JOIN GENRE G ON G.GenreID = MG.GenreID
+      WHERE G.GenreName = ?;      
+      `, [genreName]);
+            return rows;
+        }
+        catch (error) {
+            console.log("Error fetching movies by genre:", error);
+            throw error;
+        }
+    });
+}
 export function getCastOfSpecificMovie(id) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -207,6 +226,23 @@ export function getMoviesAvailableToWatchOnlineInLanguage(language) {
         }
         catch (error) {
             console.log("Error fetching movies available to watch online in language:", error);
+            throw error;
+        }
+    });
+}
+// get movies by language name
+export function getMoviesByLanguage(languageName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [rows] = yield pool.execute(`
+      SELECT M.*, ML.LanguageId
+      FROM MOVIE M, MOVIE_LANGUAGE ML
+      WHERE M.Language = ? AND M.MovieID = ML.MovieID;
+      `, [languageName]);
+            return rows;
+        }
+        catch (error) {
+            console.log("Error fetching movies by language:", error);
             throw error;
         }
     });

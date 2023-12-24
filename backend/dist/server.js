@@ -79,6 +79,17 @@ app.get('/api/genres', (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ error: "Error fetching all genres" });
     }
 }));
+app.get('/api/movies/genre/:genre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const genre = req.params.genre;
+        const movies = yield db.getMoviesByGenre(genre);
+        res.status(200).json(movies);
+    }
+    catch (error) {
+        console.error("Error fetching movies by genre:", error);
+        res.status(500).json({ error: "Error fetching movies by genre" });
+    }
+}));
 // Get Cast of specific movie
 app.get('/api/cast/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -161,6 +172,18 @@ app.get('/api/movies/online/:language', (req, res) => __awaiter(void 0, void 0, 
     catch (error) {
         console.error("Error fetching movies available to watch online in language", error);
         res.status(500).json({ error: "No movies with ${req.params.language} is available to watch online" });
+    }
+}));
+// Add this route to get movies by language name
+app.get('/api/movies/language/:language', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const language = req.params.language;
+        const movies = yield db.getMoviesByLanguage(language);
+        res.status(200).json(movies);
+    }
+    catch (error) {
+        console.error("Error fetching movies by language:", error);
+        res.status(500).json({ error: "Error fetching movies by language" });
     }
 }));
 // Get all languages

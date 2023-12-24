@@ -1,49 +1,93 @@
 // App.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./index.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import SidePanel from "./SidePanel";
 import MovieDetails from "./MovieDetails";
-import MainContent from "./MainContent"; // Import MainContent
-import { BrowserRouter } from "react-router-dom";
+import MainContent from "./MainContent";
+import Languages from "./Languages";
+import Genres from "./Genres";
+import MoviesByGenre from "./MoviesByGenre";
+import WhereToWatch from "./WhereToWatch";
+import MoviesByLanguage from "./MoviesByLanguage";
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   useEffect(() => {
+    // Fetch movies based on the selected language
     axios
-      .get("/api/movies")
+      .get("/api/movies", {
+        params: {
+          language: selectedLanguage,
+        },
+      })
       .then((response) => {
         setMovies(response.data);
       })
       .catch((error) => {
         console.error("Error fetching movies:", error);
       });
-  }, []);
+  }, [selectedLanguage]);
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
   };
 
+  const handleLanguageClick = (languageID) => {
+    setSelectedLanguage(languageID);
+  };
+
+  const handleMovieSearch = (movieDetails) => {
+    console.log("Handling movie search:", movieDetails);
+    setSelectedMovie(movieDetails);
+  };
+
+  const handleSearchComplete = () => {
+    // Reset the state when the search is complete
+    setSelectedLanguage(null);
+    setMovies([]);
+  };
+
   return (
-    <BrowserRouter>
+    <Router>
       <div className="flex h-screen">
         {/* Navbar */}
-        <Navbar />
+        <Navbar onMovieSearch={handleMovieSearch} />
 
         {/* Side Panel */}
         <SidePanel />
 
         {/* Main Content */}
-        <MainContent
-          movies={movies}
-          handleMovieClick={handleMovieClick}
-          selectedMovie={selectedMovie}
-        />
+        <Routes>
+          <Route
+            path="/movies"
+            element={
+              <MainContent
+                movies={movies}
+                handleMovieClick={handleMovieClick}
+                selectedMovie={selectedMovie}
+              />
+            }
+          />
+          <Route path="/languages" element={<Languages handleLanguageClick={handleLanguageClick} />} />
+          <Route path="/genres" element={<Genres />} />
+          <Route
+            path="/genres/:genre" // :genre is a parameter that will be passed to MoviesByGenre
+            element={<MoviesByGenre />}
+          />
+          <Route path="/wheretowatch" element={<WhereToWatch />} />
+          <Route
+            path="/movies/:language"
+            element={<MoviesByLanguage />}
+          />
+        </Routes>
 
         {/* Detailed Movie Display */}
+        {console.log("Selected Movie:", selectedMovie)}
         {selectedMovie && (
           <MovieDetails
             movie={selectedMovie}
@@ -51,9 +95,8 @@ function App() {
           />
         )}
       </div>
-    </BrowserRouter>
+    </Router>
   );
 }
 
 export default App;
-  

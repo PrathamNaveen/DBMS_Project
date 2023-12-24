@@ -89,6 +89,28 @@ export async function getAllGenres(): Promise<md.Genre[]> {
   }
 }
 
+// get movies by genre name
+export async function getMoviesByGenre(genreName: string): Promise<md.Movie[]> {
+  try {
+    const [rows] = await pool.execute(
+      `
+      SELECT M.*, MG.GenreId, G.GenreName
+      FROM MOVIE M
+      JOIN MOVIE_GENRE MG ON M.MovieID = MG.MovieID
+      JOIN GENRE G ON G.GenreID = MG.GenreID
+      WHERE G.GenreName = ?;      
+      `,
+      [genreName]
+    );
+
+    return rows as md.Movie[];
+  } catch (error) {
+    console.log("Error fetching movies by genre:", error);
+    throw error;
+  }
+}
+
+
 export async function getCastOfSpecificMovie(id: string): Promise<md.Cast[]> {
   try {
     const [rows] = await pool.execute(
@@ -221,6 +243,26 @@ export async function getMoviesAvailableToWatchOnlineInLanguage(language: string
       throw error;
   }
 }
+
+// get movies by language name
+export async function getMoviesByLanguage(languageName: string): Promise<md.Movie[]> {
+  try {
+    const [rows] = await pool.execute(
+      `
+      SELECT M.*, ML.LanguageId
+      FROM MOVIE M, MOVIE_LANGUAGE ML
+      WHERE M.Language = ? AND M.MovieID = ML.MovieID;
+      `,
+      [languageName]
+    );
+
+    return rows as md.Movie[];
+  } catch (error) {
+    console.log("Error fetching movies by language:", error);
+    throw error;
+  }
+}
+
 
 // Get All Languages
 export async function getAllLanguages(): Promise<md.Language[]> {

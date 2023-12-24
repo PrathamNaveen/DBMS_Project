@@ -76,6 +76,18 @@ app.get('/api/genres', async (req, res) => {
     }
 });
 
+app.get('/api/movies/genre/:genre', async (req, res) => {
+    try {
+      const genre = req.params.genre;
+      const movies = await db.getMoviesByGenre(genre);
+  
+      res.status(200).json(movies);
+    } catch (error) {
+      console.error("Error fetching movies by genre:", error);
+      res.status(500).json({ error: "Error fetching movies by genre" });
+    }
+});
+
 // Get Cast of specific movie
 app.get('/api/cast/:id', async (req, res) => {
     try {
@@ -158,6 +170,19 @@ app.get('/api/movies/online/:language', async (req, res) => {
     } catch (error) {
         console.error("Error fetching movies available to watch online in language", error);
         res.status(500).json({ error: "No movies with ${req.params.language} is available to watch online" });
+    }
+});
+
+// Add this route to get movies by language name
+app.get('/api/movies/language/:language', async (req, res) => {
+    try {
+      const language = req.params.language;
+      const movies = await db.getMoviesByLanguage(language);
+  
+      res.status(200).json(movies);
+    } catch (error) {
+      console.error("Error fetching movies by language:", error);
+      res.status(500).json({ error: "Error fetching movies by language" });
     }
 });
 

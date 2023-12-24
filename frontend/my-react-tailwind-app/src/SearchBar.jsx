@@ -2,35 +2,35 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const SearchBar = ({ onSearch, handleMovieClick }) => {
+const SearchBar = ({ onMovieSearch, onSearchComplete }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async () => {
     try {
-      // Convert the search term to lowercase
       const lowerCaseTerm = searchTerm.toLowerCase();
-
-      // Make a request to search for the movie
       const response = await axios.get(`/api/movies/search/${lowerCaseTerm}`);
 
-      // If movies are found, update the search results
       if (response.data) {
         setSearchResults(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } else {
-        // If no movies are found, you can handle it as per your requirement
-        console.log("No movies found");
         setSearchResults([]);
       }
-
     } catch (error) {
       console.error("Error searching for movies:", error);
     }
   };
 
+  const handleSelectMovie = (selectedMovie) => {
+    // Directly pass the selected movie details to the parent
+    console.log("Selected Movie from Search bar:", selectedMovie);
+    onMovieSearch(selectedMovie);
+    onSearchComplete();
+  };
+
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <input
         type="text"
         placeholder="Search for a movie"
@@ -47,11 +47,14 @@ const SearchBar = ({ onSearch, handleMovieClick }) => {
 
       {/* Render search results with click handling */}
       {searchResults.length > 0 && (
-        <div>
+        <div className="mt-4">
           <h2>Search Results:</h2>
           <ul>
             {searchResults.map((movie) => (
-              <li key={movie.MovieID} onClick={() => handleMovieClick(movie)}>
+              <li
+                key={movie.MovieID}
+                onMouseDown={() => handleSelectMovie(movie)}
+              >
                 {movie.Title}
               </li>
             ))}
@@ -63,3 +66,4 @@ const SearchBar = ({ onSearch, handleMovieClick }) => {
 };
 
 export default SearchBar;
+
