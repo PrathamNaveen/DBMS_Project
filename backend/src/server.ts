@@ -76,6 +76,7 @@ app.get('/api/genres', async (req, res) => {
     }
 });
 
+// get movies belonging to specifc genre
 app.get('/api/movies/genre/:genre', async (req, res) => {
     try {
       const genre = req.params.genre;
@@ -123,6 +124,20 @@ app.get('/api/wtw', async (req, res) => {
         res.status(500).json({ error: "No where to watch locations" });
     }
 });
+
+// get movies belonging to specific Where to Watch
+app.get('/api/movies/wtw/:wtw', async (req, res) => {
+    try {
+      const wtw = req.params.wtw;
+      const movies = await db.getMoviesByWhereToWatch(wtw);
+  
+      res.status(200).json(movies);
+    } catch (error) {
+      console.error("Error fetching movies by Where to Watch:", error);
+      res.status(500).json({ error: "Error fetching movies by Where to Watch" });
+    }
+});
+  
 
 
 // Get all the movies with a specific rating

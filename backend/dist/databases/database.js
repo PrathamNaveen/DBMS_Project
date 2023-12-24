@@ -155,6 +155,25 @@ export function getAllWhereToWatch() {
         }
     });
 }
+// get movies by Where to Watch name
+export function getMoviesByWhereToWatch(wtwName) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const [rows] = yield pool.execute(`
+      SELECT M.*, MW.WtwID, W.WtwName
+      FROM MOVIE M
+      JOIN MOVIE_WTW MW ON M.MovieID = MW.MovieID
+      JOIN WHERE_TO_WATCH W ON W.WtwID = MW.WtwID
+      WHERE W.WtwName = ?;      
+      `, [wtwName]);
+            return rows;
+        }
+        catch (error) {
+            console.log("Error fetching movies by Where to Watch:", error);
+            throw error;
+        }
+    });
+}
 // Get all the movies with a specific rating
 export function getMoviesWithSpecificRating(rating) {
     return __awaiter(this, void 0, void 0, function* () {

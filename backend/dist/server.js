@@ -79,6 +79,7 @@ app.get('/api/genres', (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ error: "Error fetching all genres" });
     }
 }));
+// get movies belonging to specifc genre
 app.get('/api/movies/genre/:genre', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const genre = req.params.genre;
@@ -124,6 +125,18 @@ app.get('/api/wtw', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         console.error("Error fetching all where to watch locations", error);
         res.status(500).json({ error: "No where to watch locations" });
+    }
+}));
+// get movies belonging to specific Where to Watch
+app.get('/api/movies/wtw/:wtw', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const wtw = req.params.wtw;
+        const movies = yield db.getMoviesByWhereToWatch(wtw);
+        res.status(200).json(movies);
+    }
+    catch (error) {
+        console.error("Error fetching movies by Where to Watch:", error);
+        res.status(500).json({ error: "Error fetching movies by Where to Watch" });
     }
 }));
 // Get all the movies with a specific rating

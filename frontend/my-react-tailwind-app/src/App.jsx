@@ -11,6 +11,7 @@ import Genres from "./Genres";
 import MoviesByGenre from "./MoviesByGenre";
 import WhereToWatch from "./WhereToWatch";
 import MoviesByLanguage from "./MoviesByLanguage";
+import MoviesByWTW from "./MoviesByWTW";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -46,6 +47,10 @@ function App() {
     setSelectedMovie(movieDetails);
   };
 
+  const handleWTWClick = (wtwName) => {
+    setSelectedWTW(wtwName);
+  };
+
   const handleSearchComplete = () => {
     // Reset the state when the search is complete
     setSelectedLanguage(null);
@@ -73,17 +78,21 @@ function App() {
               />
             }
           />
+
           <Route path="/languages" element={<Languages handleLanguageClick={handleLanguageClick} />} />
-          <Route path="/genres" element={<Genres />} />
-          <Route
-            path="/genres/:genre" // :genre is a parameter that will be passed to MoviesByGenre
-            element={<MoviesByGenre />}
-          />
-          <Route path="/wheretowatch" element={<WhereToWatch />} />
           <Route
             path="/movies/:language"
             element={<MoviesByLanguage />}
           />
+
+          <Route path="/genres" element={<Genres />} />
+          <Route
+            path="/genres/:genre" 
+            element={<MoviesByGenre />}
+          />
+
+          <Route path="/wheretowatch" element={<WhereToWatch handleWTWClick={handleWTWClick} />} />
+          <Route path="/movies/wtw/:wtwName" element={<MoviesByWTW />} />
         </Routes>
 
         {/* Detailed Movie Display */}

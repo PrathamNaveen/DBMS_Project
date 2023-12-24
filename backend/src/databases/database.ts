@@ -160,6 +160,28 @@ export async function getAllWhereToWatch(): Promise<md.WhereToWatch[]> {
   }
 }
 
+// get movies by Where to Watch name
+export async function getMoviesByWhereToWatch(wtwName: string): Promise<md.Movie[]> {
+  try {
+    const [rows] = await pool.execute(
+      `
+      SELECT M.*, MW.WtwID, W.WtwName
+      FROM MOVIE M
+      JOIN MOVIE_WTW MW ON M.MovieID = MW.MovieID
+      JOIN WHERE_TO_WATCH W ON W.WtwID = MW.WtwID
+      WHERE W.WtwName = ?;      
+      `,
+      [wtwName]
+    );
+
+    return rows as md.Movie[];
+  } catch (error) {
+    console.log("Error fetching movies by Where to Watch:", error);
+    throw error;
+  }
+}
+
+
 // Get all the movies with a specific rating
 export async function getMoviesWithSpecificRating(rating: number): Promise<md.Movie[]> {
   try {
